@@ -1,62 +1,60 @@
-// import React from 'react';
-// import {connect} from "react-redux";
-//
-// class App extends React.Component {
-//     state = {
-//         counter: 0
-//     }
-//
-//     updateCounter(value) {
-//         this.setState({
-//             counter: this.state.counter + value
-//         })
-//     }
-//
-//
-//     render() {
-//         console.log('APP', this.props)
-//         return (
-//             <div>
-//                 <h1>Счёчик <b>{this.state.counter}</b></h1>
-//                 <hr/>
-//                 <div>
-//                     <button onClick={() => this.updateCounter(1)}>Добавить 1</button>
-//                     <button onClick={() => this.updateCounter(- 1)}>Вычесть 1</button>
-//                 </div>
-//             </div>
-//         )
-//     }
-// }
-//
-// function mapStateToProps(state){
-//     return {
-//         counter: state.counter
-//     }
-// }
-//
-// export default connect(mapStateToProps)(App)
-
-
 import React, {} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import s from './App.module.sass'
+import {addCustomerAction, removeCustomerAction} from "./store/customerReducer";
 
- function App(){
-     const dispatch = useDispatch()
-     const cash = useSelector(state => state.cash.cash)
-     console.log(cash)
+function App() {
+    const dispatch = useDispatch()
+    const cash = useSelector(state => state.cash.cash)
+    const customers = useSelector(state => state.customers.customers)
+    console.log(cash)
 
-     const addCash = (cash) => {
-        dispatch({type: "ADD_CASH" , payload: cash})
-     }
-     const getCash = (cash) => {
-         dispatch({type: "GET_CASH", payload: cash})
-     }
-    return(
+    const addCash = (cash) => {
+        dispatch({type: "ADD_CASH", payload: cash})
+    }
+    const getCash = (cash) => {
+        dispatch({type: "GET_CASH", payload: cash})
+    }
+    const addCustomer = (name) => {
+        const customer = {
+            name,
+            id: Date.now(),
+        }
+        dispatch(addCustomerAction(customer))
+    }
+
+    const removeCustomer = (customer) => {
+        dispatch(removeCustomerAction(customer.id))
+    }
+
+    return (
         <>
-            <div><b>{cash}</b></div>
-            <button onClick={() => {addCash(Number(prompt('Пополнить баланс',cash)))}}>Пополнить счёт</button>
-            <button onClick={() => {getCash(Number(prompt('Снять со счёта',cash)))}}>Снять со счёта</button>
+            <div className={s.cash}>Баланс: {cash}</div>
+            <button onClick={() => {
+                addCash(Number(prompt('Пополнить баланс', cash)))
+            }}>Пополнить счёт
+            </button>
+            <button onClick={() => {
+                getCash(Number(prompt('Снять со счёта', cash)))
+            }}>Снять со счёта
+            </button>
+            <button onClick={() => {
+                addCustomer((prompt('Клиент', cash)))
+            }}>Добавить клиента
+            </button>
+
+            <div>
+                {customers.length > 0 ?
+                    <div className={s.customers}>
+                        {customers.map(customers => (
+                            <div onClick={() => {
+                                removeCustomer(customers)
+                            }}>{customers.name}</div>
+                        ))}
+                    </div> : <div className={s.clients}>Клиенты отсутствуют</div>}
+            </div>
         </>
     )
 }
+
 export default App
