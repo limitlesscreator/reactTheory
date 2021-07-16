@@ -1,39 +1,53 @@
 import React, {useState, useReducer} from "react";
+import {Todo} from "./Todo";
 
-const ACTIONS = {
-    INCREMENT: 'increment',
-    DECREMENT: 'decrement'
+export const ACTIONS = {
+    ADD_TODO: 'add_todo',
+    TOGGLE_TODO: 'toggle_todo',
+    DELETE_TODO: 'delete_todo'
 }
 
-function reducer(state, action) {
+function reducer(todos, action) {
     switch (action.type) {
-        case ACTIONS.INCREMENT:
-            return {count: state.count + 1}
-        case ACTIONS.DECREMENT:
-            return {count: state.count - 1}
+        case ACTIONS.ADD_TODO:
+            return [...todos, newTodo(action.payload.name)]
+        case ACTIONS.TOGGLE_TODO:
+            return todos.map(todo => {
+                if (todo.id === action.payload.id) {
+                    return {...todo, complete: !todo.complete}
+                }
+                return todo
+            })
+        case ACTIONS.DELETE_TODO:
+            return todos = todos.filter(t => t.id !== action.payload.id)
         default:
-            return state
+            return todos
     }
+}
+
+function newTodo(name) {
+    return {id: Date.now(), name: name, complete: false}
 }
 
 export function App() {
-    const [state, dispatch] = useReducer(reducer, {count: 0})
+    const [todos, dispatch] = useReducer(reducer, [])
+    const [name, setName] = useState('')
 
-    function increment() {
-        dispatch(ACTIONS.INCREMENT)
+    function handleSubmit(e) {
+        e.preventDefault()
+        dispatch({type: ACTIONS.ADD_TODO, payload: {name: name}})
+        setName('')
     }
 
-    function decrement() {
-        dispatch(ACTIONS.DECREMENT)
-    }
-
+    console.log(todos)
     return (
         <>
-            <button onClick={decrement}>-
-            </button>
-            <span>{state.count}</span>
-            <button onClick={increment}>+
-            </button>
+            <form onSubmit={handleSubmit}>
+                <input type='text' value={name} onChange={e => setName(e.target.value)}></input>
+            </form>
+            {todos.map(todo => {
+                return <Todo key={todo.id} todo={todo} dispatch={dispatch}/>
+            })}
         </>
     )
 }
