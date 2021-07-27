@@ -1,59 +1,46 @@
-import {calculator, div, getDeepCopyStudent, mult, sub, sum} from "./tasks";
+import {getBanknoteList, getSum, getTriangleType, isEvenGreater, isSquareGreater, sum} from "./tasks";
 
-test('sum', () => {
-    //1. Тестовые данные
-    const a:number = 10
-    const b:number = 5
-
-    //2. Выполнение тестируемого кода с тестовыми данными
-    const result = sum(a, b)
-
-    //3. Проверка ожидаемого результата
-    expect(result).toBe(15)
+test('sum function',() => {
+    expect(sum(2,2,2)).toBe(6)
 })
 
-test('sub', () => {
-    expect(sub(10,5)).toBe(5)
+test('triangle type',() => {
+    expect(getTriangleType(5,5,5)).toBe('10')
+    expect(getTriangleType(1,1,4)).toBe('00')
+    expect(getTriangleType(7,3,5)).toBe('11')
+    expect(getTriangleType(3,3,5)).toBe('01')
 })
 
-test('div', () => {
-    expect(div(10,5)).toBe(2)
+test('get sum', () => {
+    expect(getSum(1000)).toBe(1)
+    expect(getSum(0)).toBe(0)
+    expect(getSum(1234)).toBe(10)
+    expect(getSum(9999)).toBe(36)
 })
 
-test('mult', () => {
-    expect(mult(10,5)).toBe(50)
+test('even is greater than odd?',() => {
+    expect(isEvenGreater([1,2,3,4])).toBe(false)
+    expect(isEvenGreater([5,5,2,8])).toBe(false)
+    expect(isEvenGreater([5,5,2,8,100])).toBe(true)
+    expect(isEvenGreater([80,5,2])).toBe(true)
+    expect(isEvenGreater([1,100,2,200])).toBe(false)
+    expect(isEvenGreater([100,1,200,2])).toBe(true)
 })
 
-test('calculator', () => {
-    const a:number = 10
-    const b:number = 5
-    expect(calculator(a,b,{type: 'sum'})).toBe(15)
-    expect(calculator(a,b,{type: 'mult'})).toBe(50)
-    expect(calculator(a,b,{type: 'sub'})).toBe(5)
-    expect(calculator(a,b,{type: 'div'})).toBe(2)
+test('isSquareGreater', () => {
+    const sCr = 3.14
+    const sSq = 4
+    const result = isSquareGreater(sCr,sSq)
+    expect(result).toBe(true)
 })
 
-//TDD - test driven development
+test('get banknote lise', () => {
+    const result1500 = getBanknoteList(1500)
+    const result23 = getBanknoteList(23)
+    expect(result1500[0]).toBe(1000)
+    expect(result1500[1]).toBe(500)
+    expect(result23[0]).toBe(20)
+    expect(result23[1]).toBe(2)
+    expect(result23[2]).toBe(1)
 
-export type CopyStudentType = {
-    name: string
-    age: number
-    isMarried: boolean
-    friends: Array<String>
-}
-
-test('deep copy of student', () => {
-    const student: CopyStudentType = {
-        name: 'Bob',
-        age: 23,
-        isMarried: true,
-        friends: ['Alex', 'Mike']
-    }
-
-    const copyStudent = getDeepCopyStudent(student)
-    expect(copyStudent === student).toBe(false)
-    expect(copyStudent.name === student.name).toBe(true)
-    expect(copyStudent.age  === student.age).toBe(true)
-    expect(copyStudent.friends  === student.friends).toBe(false)
-    expect(copyStudent.friends[0]  === student.friends[0]).toBe(true)
 })
