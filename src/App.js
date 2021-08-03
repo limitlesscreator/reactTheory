@@ -1,11 +1,11 @@
 import React, {useState, useReducer} from "react";
-import {Example} from "./UseMemo";
+import {Example, UseState} from "./UseState";
 
 export function App() {
 
     return (
         <>
-        <Example/>
+            <UseState/>
         </>
     )
 }
