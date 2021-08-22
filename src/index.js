@@ -1,32 +1,53 @@
-// import React from "react";
-// import ReactDOM from "react-dom";
-//
-// import {App} from "./App";
-//
-// const rootElement = document.getElementById("root");
-// ReactDOM.render(<App />, rootElement);
+import React from "react";
+import ReactDOM from "react-dom";
 
+import {App} from "./App";
 import {createStore} from "redux";
+import {allReducers} from "./reducers";
+import {Provider} from "react-redux";
 
-function reducer(state = [], action) {
-    // console.log(action)
-    switch (action.type) {
-        case "ADD_TRACK":
-            return [
-                ...state,
-                action.payload
-            ]
-    }
-    return state
-}
+// //STORE -> GLOBALIZED STATE
+//
+// //ACTION INCREMENT
+// const increment = () => {
+//     return {
+//         type: "INCREMENT"
+//     }
+// }
+// const decrement = () => {
+//     return {
+//         type: "DECREMENT"
+//     }
+// }
+// //REDUCER
+// const counter = (state = 0,action) => {
+//     switch (action.type){
+//         case  "INCREMENT":
+//             return state + 1
+//         case  "DECREMENT":
+//             return state - 1
+//         default:
+//             return state
+//     }
+// }
+//
+// let store = createStore(counter)
+//
+// //Display it in console
+// store.subscribe(() => {
+//     console.log(store.getState())
+// })
+//
+// //DISPATCH
+// store.dispatch(increment())
+// store.dispatch(increment())
+// store.dispatch(increment())
+const store = createStore(allReducers,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
-const store = createStore(reducer)
-
-console.log(store.getState())
-
-store.subscribe(() => {
-    console.log('state changed', store.getState())
-})
-
-store.dispatch({type: "ADD_TRACK", payload: "Smells like spirit"})
-store.dispatch({type: "ADD_TRACK", payload: "Enter Sandman"})
+const rootElement = document.getElementById("root");
+ReactDOM.render(
+    <Provider store={store}>
+        <App/>
+    </Provider>
+    , rootElement);
