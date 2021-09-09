@@ -1,6 +1,7 @@
 import React, {} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {increment, decrement} from "./actions";
+import Comment from "./Comment";
 import About from "./AboutForHOC";
 
 export function App() {
@@ -45,8 +46,9 @@ export function App() {
 
     return (
         <div>
-            <About/>
-
+            <Comment text={'React'}/>
+            <About text={'Hello Rainbow'}/>
+            {/*<About/>*/}
             {/*<h1>Counter {counter}</h1>*/}
             {/*<button onClick={() => {dispatch(increment())}}>+</button>*/}
             {/*<button onClick={() => {dispatch(decrement())}}>-</button>*/}
