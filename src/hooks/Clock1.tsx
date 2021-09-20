@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 export const Clock1 = () => {
     const [clock, setClock] = useState([0,0,0])
 
-    function getTime(...time: any){
+    function getTime([...time]: any){
             setClock([time[0],time[1],time[2]])
     }
 
@@ -16,7 +16,7 @@ export const Clock1 = () => {
 
     return (
         <>
-            <div>{clock[0]}:{clock[1]}:{clock[2]}</div>
+            <div>{clock[0]}:{`${clock[1]}`.padStart(2,'0')}:{`${clock[2]}`.padStart(2,'0')}</div>
         </>
     );
 };
