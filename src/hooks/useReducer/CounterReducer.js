@@ -11,8 +11,12 @@ const reducer = (state, action) => {
         case 'reset': {
             return {count: action.payload}
         }
+        default: {
+            return state
+        }
     }
 }
+
 export const CounterReducer = ({initialCount}) => {
     const [state, dispatch] = useReducer(reducer, {
         count: initialCount
@@ -35,7 +39,6 @@ export const CounterReducer = ({initialCount}) => {
             type: 'reset',
             payload: initialCount
         })
-
     }
 
 
