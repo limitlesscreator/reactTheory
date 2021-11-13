@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const List = (props) => {
+export const  List = (props) => {
     const {items = []} = props
     if (!items.length) return null
 
